@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { animate, useReducedMotion } from 'framer-motion';
 import { useInViewport } from '~/hooks';
 import { useCallback, useEffect, useRef, useState } from 'react';

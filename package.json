@@ -9,7 +9,7 @@
     "build": "remix vite:build",
     "dev": "remix vite:dev",
     "start": "remix-serve ./build/server/index.js",
-    "start:prod": "PORT=7778 remix-serve ./build/server/index.js",
+    "start:local": "PORT=7778 remix-serve ./build/server/index.js",
     "postinstall": "node ./scripts/draco.cjs",
     "lint": "eslint app",
     "lint:strict": "eslint app --rule '{\"max-lines\": [\"error\", {\"max\": 299, \"skipBlankLines\": true, \"skipComments\": true}]}' --max-warnings=0",

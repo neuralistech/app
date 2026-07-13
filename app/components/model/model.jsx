@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { animate, useReducedMotion, useSpring } from 'framer-motion';
 import { useInViewport } from '~/hooks';
 import {
