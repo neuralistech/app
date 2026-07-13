@@ -5,7 +5,10 @@ import { Profile } from './profile';
 import { ProjectSummary } from './project-summary';
 import { useEffect, useRef, useState } from 'react';
 import config from '~/config.json';
+import { cdnSrcSet } from '~/utils/cloudinary';
 import styles from './home.module.css';
+
+const V = 'v1783901944/neuralis/neuralis/projects';
 
 export const links = () => {
   return [
@@ -98,10 +101,7 @@ export const Home = () => {
           type: 'laptop',
           alt: 'Dashboard de automatización Neuralis ZEN',
           textures: [
-            {
-              srcSet: `https://res.cloudinary.com/lur7e7tw/image/upload/w_1280/v1783901944/neuralis/neuralis/projects/zen-dashboard.jpg 1280w, https://res.cloudinary.com/lur7e7tw/image/upload/w_2560/v1783901944/neuralis/neuralis/projects/zen-dashboard.jpg 2560w`,
-              placeholder: `https://res.cloudinary.com/lur7e7tw/image/upload/w_20,e_blur:1000/v1783901944/neuralis/neuralis/projects/zen-dashboard.jpg`,
-            },
+            cdnSrcSet(`${V}/zen-dashboard.jpg`, [1280, 2560]),
           ],
         }}
       />
@@ -119,14 +119,8 @@ export const Home = () => {
           type: 'phone',
           alt: 'App de gestión de agentes',
           textures: [
-            {
-              srcSet: `https://res.cloudinary.com/lur7e7tw/image/upload/w_375/v1783901944/neuralis/neuralis/projects/callcenter-app.jpg 375w, https://res.cloudinary.com/lur7e7tw/image/upload/w_750/v1783901944/neuralis/neuralis/projects/callcenter-app.jpg 750w`,
-              placeholder: `https://res.cloudinary.com/lur7e7tw/image/upload/w_20,e_blur:1000/v1783901944/neuralis/neuralis/projects/callcenter-app.jpg`,
-            },
-            {
-              srcSet: `https://res.cloudinary.com/lur7e7tw/image/upload/w_375/v1783901944/neuralis/neuralis/projects/callcenter-app.jpg 375w, https://res.cloudinary.com/lur7e7tw/image/upload/w_750/v1783901944/neuralis/neuralis/projects/callcenter-app.jpg 750w`,
-              placeholder: `https://res.cloudinary.com/lur7e7tw/image/upload/w_20,e_blur:1000/v1783901944/neuralis/neuralis/projects/callcenter-app.jpg`,
-            },
+            cdnSrcSet(`${V}/callcenter-app.jpg`, [375, 750]),
+            cdnSrcSet(`${V}/callcenter-app.jpg`, [375, 750]),
           ],
         }}
       />
@@ -143,10 +137,7 @@ export const Home = () => {
           type: 'laptop',
           alt: 'Plataforma de transformación digital Neuralis',
           textures: [
-            {
-              srcSet: `https://res.cloudinary.com/lur7e7tw/image/upload/w_800/v1783901944/neuralis/neuralis/projects/digital-platform.jpg 800w, https://res.cloudinary.com/lur7e7tw/image/upload/w_1920/v1783901944/neuralis/neuralis/projects/digital-platform.jpg 1920w`,
-              placeholder: `https://res.cloudinary.com/lur7e7tw/image/upload/w_20,e_blur:1000/v1783901944/neuralis/neuralis/projects/digital-platform.jpg`,
-            },
+            cdnSrcSet(`${V}/digital-platform.jpg`, [800, 1920]),
           ],
         }}
       />
