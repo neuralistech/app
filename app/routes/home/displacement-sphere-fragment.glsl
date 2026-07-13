@@ -7,7 +7,6 @@ uniform float shininess;
 uniform float opacity;
 
 uniform float time;
-uniform vec2  mouse;
 
 varying vec2  vUv;
 varying vec3  newPosition;

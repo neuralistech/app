@@ -13,7 +13,6 @@ import {
   Scene,
   SphereGeometry,
   UniformsUtils,
-  Vector2,
   WebGLRenderer,
 } from 'three';
 import { media } from '~/utils/style';
@@ -68,13 +67,10 @@ export const DisplacementSphere = props => {
     scene.current = new Scene();
 
     material.current = new MeshPhongMaterial();
-    material.current.shininess = 90;
-    material.current.specular.setHex(0x6699cc);
     material.current.onBeforeCompile = shader => {
       uniforms.current = UniformsUtils.merge([
         shader.uniforms,
-        { time:  { type: 'f',  value: 0 } },
-        { mouse: { type: 'v2', value: new Vector2(0.5, 0.5) } },
+        { time: { type: 'f', value: 0 } },
       ]);
 
       shader.uniforms = uniforms.current;
@@ -138,16 +134,14 @@ export const DisplacementSphere = props => {
 
   useEffect(() => {
     const onMouseMove = throttle(event => {
-      const x = event.clientX / window.innerWidth;
-      const y = event.clientY / window.innerHeight;
+      const position = {
+        x: event.clientX / window.innerWidth,
+        y: event.clientY / window.innerHeight,
+      };
 
-      rotationX.set(y / 2);
-      rotationY.set(x / 2);
-
-      if (uniforms.current) {
-        uniforms.current.mouse.value.set(x, 1.0 - y);
-      }
-    }, 40);
+      rotationX.set(position.y / 2);
+      rotationY.set(position.x / 2);
+    }, 100);
 
     if (!reduceMotion && isInViewport) {
       window.addEventListener('mousemove', onMouseMove);
