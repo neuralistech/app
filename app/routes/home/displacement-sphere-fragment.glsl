@@ -5,6 +5,7 @@ uniform vec3  emissive;
 uniform vec3  specular;
 uniform float shininess;
 uniform float opacity;
+
 uniform float time;
 uniform vec2  mouse;
 
@@ -38,36 +39,53 @@ varying float noise;
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
 
+// Smooth gradient across 5 color stops (t in 0..1)
+vec3 palette(float t) {
+  // Blue → Purple → Red → Orange → Blue  (very slow cycle)
+  vec3 c0 = vec3(0.10, 0.45, 0.90);  // Neuralis electric blue
+  vec3 c1 = vec3(0.45, 0.18, 0.88);  // deep violet-purple
+  vec3 c2 = vec3(0.82, 0.08, 0.22);  // crimson red
+  vec3 c3 = vec3(0.96, 0.42, 0.05);  // burnt orange
+  vec3 c4 = vec3(0.10, 0.45, 0.90);  // back to blue (loop)
+
+  // Scale t over 4 segments
+  t = fract(t);
+  float seg = t * 4.0;
+  int  i   = int(floor(seg));
+  float f  = fract(seg);
+
+  // Smooth step to ease between stops
+  f = f * f * (3.0 - 2.0 * f);
+
+  if (i == 0) return mix(c0, c1, f);
+  if (i == 1) return mix(c1, c2, f);
+  if (i == 2) return mix(c2, c3, f);
+              return mix(c3, c4, f);
+}
+
 void main() {
   #include <clipping_planes_fragment>
 
-  // Organic blob color palette — deep navy → electric blue → soft cyan
-  // with iridescent shift driven by noise and mouse proximity
   float n = clamp(noise * 0.5 + 0.5, 0.0, 1.0);
 
-  // Mouse-influenced hue drift
-  vec2  m      = mouse - 0.5;
-  float mDist  = length(m);
-  float mShift = mDist * 0.4 + time * 0.06;
+  // Very slow color cycle: full rotation every ~80 seconds
+  float cycle = time * 0.0125;
 
-  // Three color stops for the blob
-  vec3 colorDeep  = vec3(0.03, 0.08, 0.28);   // deep navy
-  vec3 colorMid   = vec3(0.12, 0.48, 0.93);   // electric blue (Neuralis #1e7aed)
-  vec3 colorHigh  = vec3(0.45, 0.82, 1.00);   // bright cyan highlight
+  // Sample the palette at cycle offset, perturbed by noise for organic feel
+  float paletteT = cycle + n * 0.25;
+  vec3 baseColor = palette(paletteT);
 
-  // Blend based on displacement noise + subtle time oscillation
-  float t1 = smoothstep(0.0, 0.55, n + 0.12 * sin(time * 0.5 + vUv.x * 6.0));
-  float t2 = smoothstep(0.45, 1.0,  n + 0.10 * cos(time * 0.4 + vUv.y * 5.0 + mShift));
+  // Bright highlight band driven by high-noise areas
+  vec3 highlightColor = palette(paletteT + 0.08);
+  float highlight = smoothstep(0.6, 1.0, n);
+  baseColor = mix(baseColor, highlightColor * 1.4, highlight * 0.55);
 
-  vec3 blobColor = mix(colorDeep, colorMid, t1);
-  blobColor      = mix(blobColor, colorHigh, t2 * 0.7);
+  // Subtle iridescent shift at extremes
+  vec3 rimColor = palette(paletteT + 0.5);
+  float rim = smoothstep(0.75, 1.0, n) * 0.35;
+  baseColor = mix(baseColor, rimColor, rim);
 
-  // Iridescent rim — purple tinge at grazing angles (approximated via noise)
-  vec3 rimColor   = vec3(0.55, 0.30, 0.95);
-  float rimFactor = smoothstep(0.7, 1.0, n) * 0.45;
-  blobColor       = mix(blobColor, rimColor, rimFactor);
-
-  vec4 diffuseColor = vec4(blobColor, 1.0);
+  vec4 diffuseColor = vec4(baseColor, 1.0);
 
   ReflectedLight reflectedLight = ReflectedLight(vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0));
   vec3 totalEmissiveRadiance = emissive;
