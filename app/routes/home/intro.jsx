@@ -69,17 +69,17 @@ export function Intro({ id, sectionRef, scrollIndicatorHidden, ...rest }) {
               </Suspense>
             )}
             <header className={styles.text}>
-              <div className={styles.logoMark} data-visible={visible}>
+              <div className={styles.brand} data-visible={visible}>
                 <img
                   src="/logo-mark.png"
                   alt=""
                   aria-hidden
                   className={styles.logoMarkImage}
                 />
+                <h1 className={styles.name} id={titleId}>
+                  <DecoderText text={config.name} delay={500} />
+                </h1>
               </div>
-              <h1 className={styles.name} data-visible={visible} id={titleId}>
-                <DecoderText text={config.name} delay={500} />
-              </h1>
               <Heading level={0} as="h2" className={styles.title}>
                 <VisuallyHidden className={styles.label}>
                   {`${config.role} + ${introLabel}`}
