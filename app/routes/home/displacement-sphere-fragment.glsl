@@ -67,8 +67,8 @@ void main() {
 
   float n = clamp(noise * 0.5 + 0.5, 0.0, 1.0);
 
-  // Very slow color cycle: full rotation every ~80 seconds
-  float cycle = time * 0.0125;
+  // Color cycle: full rotation every ~25 seconds
+  float cycle = time * 0.04;
 
   // Sample the palette at cycle offset, perturbed by noise for organic feel
   float paletteT = cycle + n * 0.25;

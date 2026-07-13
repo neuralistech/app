@@ -148,7 +148,8 @@ export const DisplacementSphere = props => {
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
     };
-  }, [isInViewport, reduceMotion, rotationX, rotationY]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInViewport, reduceMotion]);
 
   useEffect(() => {
     let animation;
@@ -157,7 +158,6 @@ export const DisplacementSphere = props => {
       animation = requestAnimationFrame(animate);
 
       if (uniforms.current !== undefined) {
-        // time drives both the blob deformation AND the color cycle
         uniforms.current.time.value = 0.00005 * (Date.now() - start.current);
       }
 
@@ -177,7 +177,11 @@ export const DisplacementSphere = props => {
     return () => {
       cancelAnimationFrame(animation);
     };
-  }, [isInViewport, reduceMotion, rotationX, rotationY]);
+    // rotationX/rotationY are stable MotionValue refs — reading them inside
+    // the loop is correct; listing them as deps would restart the animation
+    // every time the spring animates toward a new target.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInViewport, reduceMotion]);
 
   return (
     <Transition in timeout={3000} nodeRef={canvasRef}>

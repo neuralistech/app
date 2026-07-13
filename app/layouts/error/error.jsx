@@ -1,12 +1,9 @@
-import notFoundPoster from '~/assets/notfound.jpg';
-import notFoundVideo from '~/assets/notfound.mp4';
 import { Button } from '~/components/button';
 import { DecoderText } from '~/components/decoder-text';
 import { Heading } from '~/components/heading';
 import { Text } from '~/components/text';
 import { Transition } from '~/components/transition';
 import styles from './error.module.css';
-import { Image } from '~/components/image';
 import flatlineSkull from './error-flatline.svg';
 import { ErrorTechAnimation } from './error-tech-animation';
 
@@ -17,19 +14,30 @@ export function Error({ error }) {
     switch (error.status) {
       case 404:
         return {
-          summary: 'Error: redacted',
-          message:
-            'This page could not be found. It either doesn’t exist or was deleted. Or perhaps you don’t exist and this webpage couldn’t find you.',
+          summary: 'Recurso no encontrado',
+          message: 'La página que buscas no existe o fue removida.',
         };
       case 405:
         return {
-          summary: 'Error: method denied',
-          message: error.data,
+          summary: 'Método no permitido',
+          message: 'La solicitud no está permitida en este recurso.',
+        };
+      case 403:
+        return {
+          summary: 'Acceso denegado',
+          message: 'No tienes permisos para acceder a este recurso.',
+        };
+      case 503:
+        return {
+          summary: 'Servicio no disponible',
+          message: 'El servicio está temporalmente fuera de línea. Intenta de nuevo en unos minutos.',
         };
       default:
         return {
-          summary: 'Error: anomaly',
-          message: error.statusText || error.data || error.toString(),
+          summary: flatlined ? 'Error crítico' : `Error ${error.status || ''}`.trim(),
+          message: flatlined
+            ? 'Se produjo un error inesperado en la aplicación.'
+            : 'Ocurrió un error al procesar tu solicitud.',
         };
     }
   };
@@ -110,30 +118,7 @@ export function Error({ error }) {
             </div>
 
             <div className={styles.videoContainer} data-visible={visible}>
-              {flatlined ? (
-                <ErrorTechAnimation flatlined />
-              ) : (
-                <>
-                  <Image
-                    reveal
-                    cover
-                    noPauseButton
-                    delay={600}
-                    className={styles.video}
-                    src={notFoundVideo}
-                    placeholder={notFoundPoster}
-                  />
-                  <a
-                    className={styles.credit}
-                    data-visible={visible}
-                    href="https://www.imdb.com/title/tt0113568/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Animation from Ghost in the Shell (1995)
-                  </a>
-                </>
-              )}
+              <ErrorTechAnimation flatlined={flatlined} />
             </div>
           </>
         )}

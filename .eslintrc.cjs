@@ -22,11 +22,14 @@ module.exports = {
   },
 
   // Base config
-  extends: ['eslint:recommended', 'plugin:storybook/recommended'],
+  extends: ['eslint:recommended'],
 
   rules: {
     semi: 'error',
     'no-unused-vars': 'warn',
+    // Soft target: warn at 200 lines (visible in IDE/terminal, doesn't block dev)
+    // Hard block at 299 is enforced via `npm run lint:strict` (runs in CI)
+    'max-lines': ['warn', { max: 200, skipBlankLines: true, skipComments: true }],
   },
 
   overrides: [

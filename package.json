@@ -11,9 +11,10 @@
     "start": "remix-serve ./build/server/index.js",
     "start:prod": "PORT=7778 remix-serve ./build/server/index.js",
     "postinstall": "node ./scripts/draco.cjs",
-    "lint": "eslint app --max-warnings=0",
+    "lint": "eslint app",
+    "lint:strict": "eslint app --rule '{\"max-lines\": [\"error\", {\"max\": 299, \"skipBlankLines\": true, \"skipComments\": true}]}' --max-warnings=0",
     "typecheck": "tsc --noEmit",
-    "ci": "npm run lint && npm run build"
+    "ci": "npm run lint:strict && npm run build"
   },
   "dependencies": {
     "@mdx-js/react": "^3.0.1",
