@@ -9,7 +9,10 @@ import rehypeImgSize from 'rehype-img-size';
 import rehypeSlug from 'rehype-slug';
 import rehypePrism from '@mapbox/rehype-prism';
 
-const isVercel = Boolean(process.env.VERCEL);
+// Only activate Vercel preset when Vercel explicitly sets VERCEL=1.
+// Boolean(process.env.VERCEL) would be true for any truthy string (e.g. 'false'),
+// so we compare strictly to avoid activating the preset on Render or other hosts.
+const isVercel = process.env.VERCEL === '1';
 
 export default defineConfig({
   assetsInclude: ['**/*.glb', '**/*.hdr', '**/*.glsl'],
