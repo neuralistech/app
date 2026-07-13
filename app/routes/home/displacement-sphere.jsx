@@ -32,7 +32,6 @@ export const DisplacementSphere = props => {
   const { theme } = useTheme();
   const start = useRef(Date.now());
   const canvasRef = useRef();
-  const mouse = useRef();
   const renderer = useRef();
   const camera = useRef();
   const scene = useRef();
@@ -49,7 +48,6 @@ export const DisplacementSphere = props => {
 
   useEffect(() => {
     const { innerWidth, innerHeight } = window;
-    mouse.current = new Vector2(0.8, 0.5);
     renderer.current = new WebGLRenderer({
       canvas: canvasRef.current,
       antialias: false,
