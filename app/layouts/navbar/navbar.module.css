@@ -35,35 +35,52 @@
       padding-bottom: var(--spaceS);
     }
 
-    /* Gemini glow ring — surrounds the logo on hover */
+    /* Top-left corner bracket */
     &::before {
       content: '';
       position: absolute;
-      inset: -6px;
-      border-radius: 12px;
-      border: 1.5px solid rgba(30, 122, 237, 0);
-      background: radial-gradient(
-        80px circle at var(--glow-x, 50%) var(--glow-y, 50%),
-        rgba(30, 122, 237, 0.28) 0%,
-        rgba(96, 200, 255, 0.10) 45%,
-        transparent 70%
-      );
-      box-shadow: none;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      border-top: 1.5px solid var(--accent);
+      border-left: 1.5px solid var(--accent);
       opacity: 0;
       pointer-events: none;
+      transform: translate(-4px, -4px);
       transition:
-        opacity       0.35s ease,
-        border-color  0.35s ease,
-        box-shadow    0.35s ease;
-      z-index: -1;
+        opacity var(--durationS) ease,
+        transform var(--durationS) var(--bezierFastoutSlowin);
     }
 
-    &:hover::before {
+    /* Bottom-right corner bracket */
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 14px;
+      height: 14px;
+      border-bottom: 1.5px solid var(--accent);
+      border-right: 1.5px solid var(--accent);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(4px, 4px);
+      transition:
+        opacity var(--durationS) ease,
+        transform var(--durationS) var(--bezierFastoutSlowin);
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
       opacity: 1;
-      border-color: rgba(30, 122, 237, 0.45);
-      box-shadow:
-        0 0 18px rgba(30, 122, 237, 0.22),
-        0 0 36px rgba(30, 122, 237, 0.08);
+      transform: translate(0, 0);
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+      opacity: 1;
+      transform: translate(0, 0);
     }
   }
 
@@ -106,30 +123,55 @@
       color: var(--textBody);
     }
 
-    /* Gemini glow capsule behind the link text */
+    /* Top-left corner bracket */
     &::before {
       content: '';
       position: absolute;
-      inset: -2px;
-      border-radius: 6px;
-      background: radial-gradient(
-        55px circle at var(--glow-x, 50%) var(--glow-y, 50%),
-        rgba(30, 122, 237, 0.28) 0%,
-        rgba(96, 200, 255, 0.12) 45%,
-        transparent 70%
-      );
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      border-top: 1.5px solid var(--accent);
+      border-left: 1.5px solid var(--accent);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.28s ease;
-      z-index: -1;
+      transform: translate(-3px, -3px);
+      transition:
+        opacity var(--durationS) ease,
+        transform var(--durationS) var(--bezierFastoutSlowin);
+    }
+
+    /* Bottom-right corner bracket */
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      border-bottom: 1.5px solid var(--accent);
+      border-right: 1.5px solid var(--accent);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(3px, 3px);
+      transition:
+        opacity var(--durationS) ease,
+        transform var(--durationS) var(--bezierFastoutSlowin);
     }
 
     &:hover::before,
     &:active::before,
     &[aria-current='page']::before {
       opacity: 1;
+      transform: translate(0, 0);
     }
 
+    &:hover::after,
+    &:active::after,
+    &[aria-current='page']::after {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
   }
 
   .navIcons {
@@ -167,26 +209,25 @@
     position: relative;
     transition: color var(--durationM) var(--bezierFastoutSlowin);
 
-    /* Gemini circular glow behind icon */
+    /* Accent ring on hover */
     &::before {
       content: '';
       position: absolute;
-      inset: 0;
+      inset: 4px;
       border-radius: 50%;
-      background: radial-gradient(
-        circle at var(--glow-x, 50%) var(--glow-y, 50%),
-        rgba(30, 122, 237, 0.32) 0%,
-        rgba(96, 200, 255, 0.10) 50%,
-        transparent 70%
-      );
+      border: 1.5px solid var(--accent);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.25s ease;
+      transform: scale(0.65);
+      transition:
+        opacity var(--durationS) ease,
+        transform var(--durationS) var(--bezierFastoutSlowin);
     }
 
     &:hover::before,
     &:active::before {
-      opacity: 1;
+      opacity: 0.7;
+      transform: scale(1);
     }
 
     &:hover,

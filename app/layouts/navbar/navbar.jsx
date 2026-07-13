@@ -5,7 +5,7 @@ import { tokens } from '~/components/theme-provider/theme';
 import { Transition } from '~/components/transition';
 import { useScrollToHash, useWindowSize } from '~/hooks';
 import { Link as RouterLink, useLocation } from '@remix-run/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cssProps, media, msToNum, numToMs } from '~/utils/style';
 import { NavToggle } from './nav-toggle';
 import { ThemeToggle } from './theme-toggle';
@@ -23,17 +23,6 @@ export const Navbar = () => {
   const headerRef = useRef();
   const isMobile = windowSize.width <= media.mobile || windowSize.height <= 696;
   const scrollToHash = useScrollToHash();
-
-  // Gemini spotlight: track mouse relative to each glow target
-  const handleNavMouseMove = useCallback(e => {
-    const glowTargets = headerRef.current?.querySelectorAll('[data-glow]');
-    if (!glowTargets) return;
-    for (const el of glowTargets) {
-      const rect = el.getBoundingClientRect();
-      el.style.setProperty('--glow-x', `${e.clientX - rect.left}px`);
-      el.style.setProperty('--glow-y', `${e.clientY - rect.top}px`);
-    }
-  }, []);
 
   useEffect(() => {
     // Prevent ssr mismatch by storing this in state
@@ -151,13 +140,12 @@ export const Navbar = () => {
   };
 
   return (
-    <header className={styles.navbar} ref={headerRef} onMouseMove={handleNavMouseMove}>
+    <header className={styles.navbar} ref={headerRef}>
       <RouterLink
         unstable_viewTransition
         prefetch="intent"
         to={location.pathname === '/' ? '/#intro' : '/'}
         data-navbar-item
-        data-glow
         className={styles.logo}
         aria-label={`${config.name}, ${config.role}`}
         onClick={handleMobileNavClick}
@@ -174,7 +162,6 @@ export const Navbar = () => {
               to={pathname}
               key={label}
               data-navbar-item
-              data-glow
               className={styles.navLink}
               aria-current={getCurrent(pathname)}
               onClick={handleNavItemClick}
@@ -223,7 +210,6 @@ const NavbarIcons = ({ desktop }) => (
       <a
         key={label}
         data-navbar-item={desktop || undefined}
-        data-glow
         className={styles.navIconLink}
         aria-label={label}
         href={url}

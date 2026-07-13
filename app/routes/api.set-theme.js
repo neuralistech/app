@@ -1,8 +1,19 @@
 import { json, createCookieSessionStorage } from '@remix-run/node';
 
+const VALID_THEMES = ['dark', 'light'];
+
 export async function action({ request }) {
   const formData = await request.formData();
   const theme = formData.get('theme');
+
+  if (!VALID_THEMES.includes(theme)) {
+    return json({ status: 'error' }, { status: 400 });
+  }
+
+  const secret = process.env.SESSION_SECRET;
+  if (!secret && process.env.NODE_ENV === 'production') {
+    console.error('[security] SESSION_SECRET is not set — session integrity is compromised');
+  }
 
   const { getSession, commitSession } = createCookieSessionStorage({
     cookie: {
@@ -11,7 +22,7 @@ export async function action({ request }) {
       maxAge: 604_800,
       path: '/',
       sameSite: 'lax',
-      secrets: [process.env.SESSION_SECRET || 'neuralis-default-secret'],
+      secrets: [secret || 'neuralis-dev-secret'],
       secure: process.env.NODE_ENV === 'production',
     },
   });

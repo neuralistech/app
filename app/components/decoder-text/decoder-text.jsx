@@ -56,11 +56,13 @@ export const DecoderText = memo(
       const content = text.split('');
       let animation;
 
-      const renderOutput = () => {
-        const characterMap = output.current.map(item => {
-          return `<span class="${styles[item.type]}">${item.value}</span>`;
-        });
+      const escapeHtml = v =>
+        v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+      const renderOutput = () => {
+        const characterMap = output.current.map(item =>
+          `<span class="${styles[item.type]}">${escapeHtml(item.value)}</span>`
+        );
         containerInstance.innerHTML = characterMap.join('');
       };
 

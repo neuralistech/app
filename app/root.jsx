@@ -52,6 +52,11 @@ export const loader = async ({ request }) => {
   const pathnameSliced = pathname.endsWith('/') ? pathname.slice(0, -1) : url;
   const canonicalUrl = `${config.url}${pathnameSliced}`;
 
+  const sessionSecret = process.env.SESSION_SECRET;
+  if (!sessionSecret && process.env.NODE_ENV === 'production') {
+    console.error('[security] SESSION_SECRET is not set — session integrity is compromised');
+  }
+
   const { getSession, commitSession } = createCookieSessionStorage({
     cookie: {
       name: '__session',
@@ -59,7 +64,7 @@ export const loader = async ({ request }) => {
       maxAge: 604_800,
       path: '/',
       sameSite: 'lax',
-      secrets: [process.env.SESSION_SECRET || 'neuralis-default-secret'],
+      secrets: [sessionSecret || 'neuralis-dev-secret'],
       secure: process.env.NODE_ENV === 'production',
     },
   });
