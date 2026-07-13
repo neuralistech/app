@@ -1,0 +1,15 @@
+node_modules
+
+/.cache
+/build
+.env
+.env.local
+.env.production
+
+public/draco
+storybook-static
+
+# Agent docs — never commit
+docs/
+
+.vercel

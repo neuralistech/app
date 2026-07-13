@@ -1,0 +1,56 @@
+{
+  "name": "neuralis-web",
+  "homepage": "https://www.neuralistech.com",
+  "description": "Corporate website for Neuralis — BPO, Call Center & Digital Transformation",
+  "author": "Neuralis Technologies",
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
+    "start": "remix-serve ./build/server/index.js",
+    "start:prod": "PORT=7778 remix-serve ./build/server/index.js",
+    "postinstall": "node ./scripts/draco.cjs",
+    "lint": "eslint app --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "ci": "npm run lint && npm run build"
+  },
+  "dependencies": {
+    "@mdx-js/react": "^3.0.1",
+    "@remix-run/node": "^2.7.1",
+    "@remix-run/react": "^2.7.1",
+    "@remix-run/serve": "^2.7.1",
+    "@vercel/remix": "^2.16.7",
+    "framer-motion": "11.0.5",
+    "isbot": "^4.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rehype-img-size": "^1.0.1",
+    "rehype-slug": "^6.0.0",
+    "three": "^0.161.0",
+    "three-stdlib": "^2.29.4"
+  },
+  "devDependencies": {
+    "@csstools/postcss-global-data": "^2.1.1",
+    "@mapbox/rehype-prism": "^0.9.0",
+    "@mdx-js/rollup": "^3.0.1",
+    "@remix-run/dev": "^2.7.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "node-fetch": "^3.3.2",
+    "postcss": "^8.4.33",
+    "postcss-custom-media": "^10.0.2",
+    "prop-types": "^15.8.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^4.0.0",
+    "vite": "^5.1.0",
+    "vite-jsconfig-paths": "^2.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

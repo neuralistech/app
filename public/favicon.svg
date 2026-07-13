@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <style>
+    #mark {
+      fill: #1e7aed;
+    }
+  </style>
+  <path id="mark" d="M8 8h8L32 38 48 8h8v48h-8V24L32 52 16 24v32H8V8Z"/>
+</svg>
